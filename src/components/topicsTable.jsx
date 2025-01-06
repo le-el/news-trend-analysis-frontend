@@ -18,12 +18,11 @@ const TopicsTable = ({ reload, setReload, setLoading }) => {
   // status from alert context
   const { setStatus, setSeverity, setAlertOpen } = useAlert()
 
-
   useEffect(() => {
     // Fetch data here and set it in state
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://news-trend-analysis-backend.vercel.app/topics");
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/topics`);
         setData(response.data);
       } catch (err) {
         console.error('Error fetching data:', err);
@@ -37,7 +36,7 @@ const TopicsTable = ({ reload, setReload, setLoading }) => {
   const handleUpdate = async (id) => {
     setLoading(true); // Ensure the correct spelling of setLoading
     try {
-      const response = await axios.post(`https://news-trend-analysis-backend.vercel.app/topic/${id}`);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/topic/${id}`);
       const { message } = response.data;
 
       console.log(message);
@@ -65,7 +64,7 @@ const TopicsTable = ({ reload, setReload, setLoading }) => {
 
   const handleDelete = async (id) => {
     setOpen(false);
-    const response = await axios.delete(`https://news-trend-analysis-backend.vercel.app/topic/${id}`)
+    const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/topic/${id}`)
     console.log(response.data);
     setReload(!reload);
   };

@@ -9,7 +9,7 @@ This project is for analyzing the news topic trend.
 Clone the project
 
 ```bash
-  git clone https://github.com/topdev0215/news-trend-analysis-frontend.git
+  git clone https://github.com/le-el/news-trend-analysis-frontend.git
 ```
 
 Go to the project directory

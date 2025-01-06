@@ -25,7 +25,7 @@ export default function FloatingActionButtonSize({ reload, setReload, setLoading
         try {
             setLoading(true); // Start loading
             setOpen(false);
-            const response = await axios.put(`https://news-trend-analysis-backend.vercel.app/topic`, {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/topic`, {
                 'topic': topic
             });
             console.log('Download started for topic:', response.data);

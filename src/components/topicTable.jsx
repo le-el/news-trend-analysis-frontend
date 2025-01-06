@@ -21,7 +21,7 @@ const TopicTable = ({ id, topic }) => {
         // Fetch data here and set it in state
         const fetchData = async () => {
             try {
-                const response = await axios.get(`https://news-trend-analysis-backend.vercel.app/topic/${id}`);
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/topic/${id}`);
                 console.log("this is response==>", response.data);
                 setData(response.data);
             } catch (err) {
