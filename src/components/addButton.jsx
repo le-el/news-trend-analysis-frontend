@@ -27,6 +27,10 @@ export default function FloatingActionButtonSize({ reload, setReload, setLoading
             setOpen(false);
             const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/topic`, {
                 'topic': topic
+            }, {
+                headers: {
+                    'ngrok-skip-browser-warning': true
+                }
             });
             console.log('Download started for topic:', response.data);
             setStatus(response.data.message);

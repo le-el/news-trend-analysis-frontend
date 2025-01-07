@@ -19,7 +19,11 @@ const Article = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/topic/${id}/article/${article_id}`);
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/topic/${id}/article/${article_id}`, {
+                    headers: {
+                        'ngrok-skip-browser-warning': true
+                    }
+                });
                 console.log("this is response==>", response.data);
                 setData(response.data);
             } catch (err) {

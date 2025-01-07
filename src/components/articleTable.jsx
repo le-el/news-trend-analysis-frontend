@@ -23,6 +23,10 @@ const TopicTable = ({ id, month }) => {
                         id: id,
                         month: month
                     }
+                }, {
+                    headers: {
+                        'ngrok-skip-browser-warning': true
+                    }
                 });
                 console.log("this is response==>", response.data);
                 setData(response.data);
