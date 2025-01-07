@@ -41,7 +41,7 @@ const Layout = () => {
                     <Outlet context={{ setLoading }} />
                 </main>
                 <footer className='absolute left-[43%] bottom-2'>
-                    <p>© 2024 TrendAnalysis. All rights reserved.</p>
+                    <p>© 2025 TrendAnalysis. All rights reserved.</p>
                 </footer>
             </div>
         </>
