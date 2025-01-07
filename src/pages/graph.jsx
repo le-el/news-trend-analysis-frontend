@@ -21,7 +21,7 @@ const Graph = () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/topic/${id}`);
                 console.log("this is response==>", response.data);
-                setData(response.data);
+                setData(response.data.reverse());
             } catch (err) {
                 console.error('Error fetching data:', err);
             }
