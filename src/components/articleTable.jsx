@@ -22,8 +22,7 @@ const TopicTable = ({ id, month }) => {
                     params: {
                         id: id,
                         month: month
-                    }
-                }, {
+                    },
                     headers: {
                         'ngrok-skip-browser-warning': true
                     }
