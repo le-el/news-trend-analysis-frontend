@@ -26,7 +26,7 @@ const TopicsTable = ({ reload, setReload, setLoading }) => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/topics`, {
           headers: {
-          'ngrok-skip-browser-warning': true
+            'ngrok-skip-browser-warning': true
           }
         });
         setData(response.data);
@@ -45,7 +45,7 @@ const TopicsTable = ({ reload, setReload, setLoading }) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/topic/${topic.id}`, {
         headers: {
-        'ngrok-skip-browser-warning': true,
+          'ngrok-skip-browser-warning': true,
         }
       });
       const { message } = response.data;
@@ -73,15 +73,27 @@ const TopicsTable = ({ reload, setReload, setLoading }) => {
     })
   };
 
-  const handleDelete = async (id) => {
-    setOpen(false);
-    const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/topic/${id}`, {
-      headers: {
-      'ngrok-skip-browser-warning': true
-      }
-    })
-    console.log(response.data);
-    setReload(!reload);
+  const handleDelete = async (topicItem, confirmText) => {
+    if (topicItem?.topic.toLowerCase() !== confirmText?.toLowerCase()) {
+      setStatus('Confirm text does not match with topic name. Please try again.');
+      setSeverity('error');
+      setAlertOpen(true);
+      return;
+    }
+    else {
+      setOpen(false);
+      const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/topic/${id}`, {
+        headers: {
+          'ngrok-skip-browser-warning': true
+        }
+      })
+      console.log(response.data);
+      setStatus(`Topic ${topicItem?.topic} deleted successfully.`);
+      setSeverity('success');
+      setAlertOpen(true);
+      setReload(!reload);
+      return;
+    }
   };
 
   const handleClose = () => {
