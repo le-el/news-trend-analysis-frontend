@@ -6,11 +6,12 @@ import DownloadIcon from '@mui/icons-material/Download';
 import Tooltip from '@mui/material/Tooltip';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import axios from 'axios';
+import TokenCheckAlert from './TokenCheckAlert';
 
 export default function FloatingActionButtonSize({ reload, setReload, setLoading }) {
     const [open, setOpen] = useState(false);
     const [topic, setTopic] = useState('');
-
+    const [TokenCheckAlertOpen, setTokenCheckAlertOpen] = useState(false);
 
 
     const handleClickOpen = () => {
@@ -21,12 +22,22 @@ export default function FloatingActionButtonSize({ reload, setReload, setLoading
         setOpen(false);
     };
 
-    const handleDownload = async () => {
+    const handleTokenCheckAlertOpen = () => {
+        setOpen(false);
+        setTokenCheckAlertOpen(true);
+    }
+
+    const handleTokenCheckAlertClose = () => {
+        setTokenCheckAlertOpen(false);
+    }
+
+    const handleDownload = async (topic_name) => {
         try {
             setLoading(true); // Start loading
             setOpen(false);
+            setTokenCheckAlertOpen(false);
             const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/topic`, {
-                'topic': topic
+                'topic': topic_name
             }, {
                 headers: {
                     'ngrok-skip-browser-warning': true
@@ -70,9 +81,10 @@ export default function FloatingActionButtonSize({ reload, setReload, setLoading
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button variant="contained" endIcon={<DownloadIcon />} onClick={handleDownload}>Start Download</Button>
+                    <Button variant="contained" endIcon={<DownloadIcon />} onClick={handleTokenCheckAlertOpen}>Start Download</Button>
                 </DialogActions>
             </Dialog>
+            <TokenCheckAlert topic={topic} open={TokenCheckAlertOpen} close={handleTokenCheckAlertClose} handle={handleDownload}/>
         </>
     );
 }

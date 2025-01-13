@@ -5,8 +5,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import { capitalizeFirstLetterOfEachWord } from '../utils/functions';
 
-const DeleteAlert = ({ id, open, handleClose, handleDelete }) => {
+const DeleteAlert = ({ topicItem, open, handleClose, handleDelete }) => {
   return (
     <Dialog
       open={open}
@@ -14,20 +15,25 @@ const DeleteAlert = ({ id, open, handleClose, handleDelete }) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{"Delete Topic"}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">
+        {"Delete Topic:   "}
+        <span className='text-2xl text-cyan-500'>
+          {capitalizeFirstLetterOfEachWord(topicItem?.topic)}
+        </span>
+      </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           If you delete this topic, you can't recover it. Continue?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          No
-        </Button>
-        <Button color="error" autoFocus  onClick={() => {
-          handleDelete(id);
+        <Button color="error" autoFocus onClick={() => {
+          handleDelete(topicItem.id);
         }}>
           Delete
+        </Button>
+        <Button onClick={handleClose} color="primary">
+          Cancel
         </Button>
       </DialogActions>
     </Dialog>

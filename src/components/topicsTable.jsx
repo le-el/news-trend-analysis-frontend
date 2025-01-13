@@ -5,13 +5,15 @@ import UpdateIcon from '@mui/icons-material/Update';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteAlert from './deleteAlert';
+import TokenCheckAlert from './TokenCheckAlert';
 import axios from 'axios'
 import { useAlert } from './alertContext';
 
 const TopicsTable = ({ reload, setReload, setLoading }) => {
-  const [id, setID] = useState()
+  const [topicItem, setTopitcItem] = useState(null)
   const [data, setData] = useState([{ id: 1, topic: "", updatedDate: "" }]);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [updateAlertOpen, setUpdateAlertOpen] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -37,10 +39,11 @@ const TopicsTable = ({ reload, setReload, setLoading }) => {
     fetchData();
   }, [reload]);
 
-  const handleUpdate = async (id) => {
+  const handleUpdate = async (topic) => {
+    setUpdateAlertOpen(false);
     setLoading(true); // Ensure the correct spelling of setLoading
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/topic/${id}`, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/topic/${topic.id}`, {
         headers: {
         'ngrok-skip-browser-warning': true,
         }
@@ -83,7 +86,11 @@ const TopicsTable = ({ reload, setReload, setLoading }) => {
 
   const handleClose = () => {
     setOpen(false);
-  }
+  };
+
+  const handleUpdateClose = () => {
+    setUpdateAlertOpen(false);
+  };
 
   return (
     <>
@@ -98,12 +105,15 @@ const TopicsTable = ({ reload, setReload, setLoading }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {data?.map((item) => (
             <tr key={item.id}>
               <td>{item.topic}</td>
               <td>{item.updatedDate}</td>
               <td>
-                <IconButton color="primary" aria-label="Update topic" onClick={() => handleUpdate(item.id)}>
+                <IconButton color="primary" aria-label="Update topic" onClick={() => {
+                  setUpdateAlertOpen(true);
+                  setTopitcItem(item);
+                }}>
                   <UpdateIcon />
                 </IconButton>
               </td>
@@ -115,7 +125,7 @@ const TopicsTable = ({ reload, setReload, setLoading }) => {
               <td>
                 <IconButton color="primary" aria-label="Delete topic" onClick={() => {
                   setOpen(true);
-                  setID(item.id)
+                  setTopitcItem(item)
                 }}>
                   <DeleteIcon />
                 </IconButton>
@@ -124,7 +134,8 @@ const TopicsTable = ({ reload, setReload, setLoading }) => {
           ))}
         </tbody>
       </table>
-      <DeleteAlert id={id} open={open} handleClose={handleClose} handleDelete={handleDelete} />
+      <DeleteAlert topicItem={topicItem} open={open} handleClose={handleClose} handleDelete={handleDelete} />
+      {topicItem && <TokenCheckAlert topic={topicItem} open={updateAlertOpen} close={handleUpdateClose} handle={handleUpdate} />}
     </>
   );
 };

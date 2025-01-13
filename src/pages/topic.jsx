@@ -1,19 +1,13 @@
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import TopicTable from "../components/topicTable";
 import DisplayGraphButton from "../components/displayGraphButton";
+import { capitalizeFirstLetterOfEachWord } from "../utils/functions";
 
 const Topic = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { id } = useParams();
     const { topic_name } = location.state || {};
-
-    function capitalizeFirstLetterOfEachWord(str) {
-        return str
-            .split(' ') // Split the string into an array of words
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
-            .join(' '); // Join the array back into a single string
-    }
 
     const topic = topic_name ? capitalizeFirstLetterOfEachWord(topic_name) : '';
 
